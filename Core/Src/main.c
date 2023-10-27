@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -50,6 +51,41 @@ SPI_HandleTypeDef hspi1;
 
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
+/* Definitions for LightControl */
+osThreadId_t LightControlHandle;
+const osThreadAttr_t LightControl_attributes = {
+  .name = "LightControl",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for CarData */
+osThreadId_t CarDataHandle;
+const osThreadAttr_t CarData_attributes = {
+  .name = "CarData",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityAboveNormal,
+};
+/* Definitions for DataCAN */
+osThreadId_t DataCANHandle;
+const osThreadAttr_t DataCAN_attributes = {
+  .name = "DataCAN",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for MotorControl */
+osThreadId_t MotorControlHandle;
+const osThreadAttr_t MotorControl_attributes = {
+  .name = "MotorControl",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
+};
+/* Definitions for ReadingSensor */
+osThreadId_t ReadingSensorHandle;
+const osThreadAttr_t ReadingSensor_attributes = {
+  .name = "ReadingSensor",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -64,6 +100,12 @@ static void MX_CAN2_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
+void StartlLightControl(void *argument);
+void StartCarData(void *argument);
+void SendData(void *argument);
+void StartMotorInput(void *argument);
+void StartSensor(void *argument);
+
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -114,6 +156,53 @@ int main(void)
 
   /* USER CODE END 2 */
 
+  /* Init scheduler */
+  osKernelInitialize();
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* creation of LightControl */
+  LightControlHandle = osThreadNew(StartlLightControl, NULL, &LightControl_attributes);
+
+  /* creation of CarData */
+  CarDataHandle = osThreadNew(StartCarData, NULL, &CarData_attributes);
+
+  /* creation of DataCAN */
+  DataCANHandle = osThreadNew(SendData, NULL, &DataCAN_attributes);
+
+  /* creation of MotorControl */
+  MotorControlHandle = osThreadNew(StartMotorInput, NULL, &MotorControl_attributes);
+
+  /* creation of ReadingSensor */
+  ReadingSensorHandle = osThreadNew(StartSensor, NULL, &ReadingSensor_attributes);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -146,9 +235,9 @@ void SystemClock_Config(void)
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSE|RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
+  RCC_OscInitStruct.LSEState = RCC_LSE_BYPASS;
   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
+  RCC_OscInitStruct.MSICalibrationValue = 1;
   RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -529,6 +618,117 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartlLightControl */
+/**
+  * @brief  Function implementing the LightControl thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_StartlLightControl */
+void StartlLightControl(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_StartCarData */
+/**
+* @brief Function implementing the CarData thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartCarData */
+void StartCarData(void *argument)
+{
+  /* USER CODE BEGIN StartCarData */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartCarData */
+}
+
+/* USER CODE BEGIN Header_SendData */
+/**
+* @brief Function implementing the DataCAN thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_SendData */
+void SendData(void *argument)
+{
+  /* USER CODE BEGIN SendData */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END SendData */
+}
+
+/* USER CODE BEGIN Header_StartMotorInput */
+/**
+* @brief Function implementing the MotorControl thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartMotorInput */
+void StartMotorInput(void *argument)
+{
+  /* USER CODE BEGIN StartMotorInput */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartMotorInput */
+}
+
+/* USER CODE BEGIN Header_StartSensor */
+/**
+* @brief Function implementing the ReadingSensor thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSensor */
+void StartSensor(void *argument)
+{
+  /* USER CODE BEGIN StartSensor */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartSensor */
+}
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM7 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM7) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.
