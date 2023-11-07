@@ -573,7 +573,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, CS1_Pin|CS0_Pin|ARRAY_LED_Pin|BPS_ENC8_Pin
-                          |MC_ENC9_Pin|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
+                          |MC_ENC9_Pin|E2_Pin|E1_Pin|E0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin, GPIO_PIN_RESET);
@@ -586,9 +586,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : CS1_Pin CS0_Pin ARRAY_LED_Pin BPS_ENC8_Pin
-                           MC_ENC9_Pin PC10 PC11 PC12 */
+                           MC_ENC9_Pin E2_Pin E1_Pin E0_Pin */
   GPIO_InitStruct.Pin = CS1_Pin|CS0_Pin|ARRAY_LED_Pin|BPS_ENC8_Pin
-                          |MC_ENC9_Pin|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
+                          |MC_ENC9_Pin|E2_Pin|E1_Pin|E0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -684,6 +684,8 @@ void StartMotorInput(void *argument)
 {
   /* USER CODE BEGIN StartMotorInput */
   /* Infinite loop */
+
+
   for(;;)
   {
     osDelay(1);

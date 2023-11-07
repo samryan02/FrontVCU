@@ -83,6 +83,12 @@ void Error_Handler(void);
 #define BPS_ENC8_GPIO_Port GPIOC
 #define MC_ENC9_Pin GPIO_PIN_9
 #define MC_ENC9_GPIO_Port GPIOC
+#define E2_Pin GPIO_PIN_10
+#define E2_GPIO_Port GPIOC
+#define E1_Pin GPIO_PIN_11
+#define E1_GPIO_Port GPIOC
+#define E0_Pin GPIO_PIN_12
+#define E0_GPIO_Port GPIOC
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
