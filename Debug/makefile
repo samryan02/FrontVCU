@@ -1,6 +1,10 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
+<<<<<<< HEAD
 # Toolchain: GNU Tools for STM32 (11.3.rel1)
+=======
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
+>>>>>>> 180f99fe2e7e7d46b51ba5f79c7da3100d5a8c27
 ################################################################################
 
 -include ../makefile.init
@@ -64,8 +68,13 @@ all: main-build
 main-build: VCU_V0.elf secondary-outputs
 
 # Tool invocations
+<<<<<<< HEAD
 VCU_V0.elf VCU_V0.map: $(OBJS) $(USER_OBJS) C:\Users\kathy\Desktop\FrontVCU\STM32L496RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-gcc -o "VCU_V0.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\kathy\Desktop\FrontVCU\STM32L496RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="VCU_V0.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+=======
+VCU_V0.elf VCU_V0.map: $(OBJS) $(USER_OBJS) C:\Users\samrb\Desktop\VCU_code\VCU_V0\STM32L496RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "VCU_V0.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\samrb\Desktop\VCU_code\VCU_V0\STM32L496RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="VCU_V0.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+>>>>>>> 180f99fe2e7e7d46b51ba5f79c7da3100d5a8c27
 	@echo 'Finished building target: $@'
 	@echo ' '
 

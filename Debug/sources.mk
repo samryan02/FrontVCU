@@ -1,6 +1,10 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
+<<<<<<< HEAD
 # Toolchain: GNU Tools for STM32 (11.3.rel1)
+=======
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
+>>>>>>> 180f99fe2e7e7d46b51ba5f79c7da3100d5a8c27
 ################################################################################
 
 ELF_SRCS := 
@@ -9,7 +13,10 @@ S_SRCS :=
 C_SRCS := 
 S_UPPER_SRCS := 
 O_SRCS := 
+<<<<<<< HEAD
 CYCLO_FILES := 
+=======
+>>>>>>> 180f99fe2e7e7d46b51ba5f79c7da3100d5a8c27
 SIZE_OUTPUT := 
 OBJDUMP_LIST := 
 SU_FILES := 

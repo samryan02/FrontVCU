@@ -107,11 +107,32 @@ void StartMotorInput(void *argument);
 void StartSensor(void *argument);
 
 /* USER CODE BEGIN PFP */
+//HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, 1000);
+//HAL_I2C_Mem_Read (I2C_HandleTypeDef * hi2c, uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint8_t * pData, uint16_t Size, uint32_t Timeout)
+bool IMU_INIT(I2C_HandleTypeDef* handle){
+	/*
+	HAL_I2C_Mem_Read (I2C_HandleTypeDef * hi2c, uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint8_t * pData, uint16_t Size, uint32_t Timeout)
+	if()
+	*/
+}
+
+int16_t GYRO_READ_DIR(char dir){
+	uint8_t low[1];
+	uint8_t high[1];
+	if(dir == 'x'){
+		//two mem reads
+		//return((int16_t)high << 8) | low;
+	}
+}
+//int16 READ_READ_DIR(char dir){
+
+//}
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+///global task values
 
 bool DataReady = 0;
 
@@ -209,7 +230,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	 ///////code
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -575,7 +596,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, CS1_Pin|CS0_Pin|ARRAY_LED_Pin|BPS_ENC8_Pin
-                          |MC_ENC9_Pin|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_RESET);
+                          |MC_ENC9_Pin|E2_Pin|E1_Pin|E0_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin, GPIO_PIN_RESET);
@@ -594,9 +615,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : CS1_Pin CS0_Pin ARRAY_LED_Pin BPS_ENC8_Pin
-                           MC_ENC9_Pin PC10 PC11 PC12 */
+                           MC_ENC9_Pin E2_Pin E1_Pin E0_Pin */
   GPIO_InitStruct.Pin = CS1_Pin|CS0_Pin|ARRAY_LED_Pin|BPS_ENC8_Pin
-                          |MC_ENC9_Pin|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12;
+                          |MC_ENC9_Pin|E2_Pin|E1_Pin|E0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -648,6 +669,9 @@ if( GPIO_PIN == GPIO_PIN_0){
 /* USER CODE END Header_StartlLightControl */
 void StartlLightControl(void *argument)
 {
+
+
+
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 	//if (DataReady == 1)
@@ -706,7 +730,19 @@ void SendData(void *argument)
 void StartMotorInput(void *argument)
 {
   /* USER CODE BEGIN StartMotorInput */
+  //(&hadc);
+  //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+
+	//(&hadc);
+	  //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+	  //raw = HAL_ADC_GetValue(&hadc);
+
+	//(&hadc);
+	  //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+	  //raw = HAL_ADC_GetValue(&hadc);
   /* Infinite loop */
+
+
   for(;;)
   {
     osDelay(1);
