@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,12 +107,33 @@ void StartMotorInput(void *argument);
 void StartSensor(void *argument);
 
 /* USER CODE BEGIN PFP */
+//HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, 1000);
+//HAL_I2C_Mem_Read (I2C_HandleTypeDef * hi2c, uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint8_t * pData, uint16_t Size, uint32_t Timeout)
+bool IMU_INIT(I2C_HandleTypeDef* handle){
+	/*
+	HAL_I2C_Mem_Read (I2C_HandleTypeDef * hi2c, uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize, uint8_t * pData, uint16_t Size, uint32_t Timeout)
+	if()
+	*/
+}
+
+int16_t GYRO_READ_DIR(char dir){
+	uint8_t low[1];
+	uint8_t high[1];
+	if(dir == 'x'){
+		//two mem reads
+		//return((int16_t)high << 8) | low;
+	}
+}
+//int16 READ_READ_DIR(char dir){
+
+//}
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 ///global task values
+
 /* USER CODE END 0 */
 
 /**
@@ -688,7 +709,7 @@ void StartMotorInput(void *argument)
   /* USER CODE BEGIN StartMotorInput */
   //(&hadc);
   //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
-  /
+
 	//(&hadc);
 	  //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
 	  //raw = HAL_ADC_GetValue(&hadc);
