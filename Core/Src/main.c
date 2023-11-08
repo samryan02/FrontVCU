@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -112,6 +112,8 @@ void StartSensor(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+bool DataReady = 0;
 
 /* USER CODE END 0 */
 
@@ -585,6 +587,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PA4 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pins : CS1_Pin CS0_Pin ARRAY_LED_Pin BPS_ENC8_Pin
                            MC_ENC9_Pin PC10 PC11 PC12 */
   GPIO_InitStruct.Pin = CS1_Pin|CS0_Pin|ARRAY_LED_Pin|BPS_ENC8_Pin
@@ -613,9 +621,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(MC_EN_GPIO_Port, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
+
+void HAL_GPIO_EXI4_CALLBACK (uint16_t GPIO_PIN){
+if( GPIO_PIN == GPIO_PIN_0){
+	DataReady=1;
+}
+}
+
+
 
 /* USER CODE END 4 */
 
@@ -630,6 +650,9 @@ void StartlLightControl(void *argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
+	//if (DataReady == 1)
+		//StartLightControl;
+
   for(;;)
   {
     osDelay(1);
@@ -702,6 +725,7 @@ void StartSensor(void *argument)
 {
   /* USER CODE BEGIN StartSensor */
   /* Infinite loop */
+
   for(;;)
   {
     osDelay(1);
