@@ -112,7 +112,7 @@ void StartSensor(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+///global task values
 /* USER CODE END 0 */
 
 /**
@@ -207,7 +207,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	 ///////code
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -628,6 +628,9 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartlLightControl */
 void StartlLightControl(void *argument)
 {
+
+
+
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
   for(;;)
@@ -683,6 +686,16 @@ void SendData(void *argument)
 void StartMotorInput(void *argument)
 {
   /* USER CODE BEGIN StartMotorInput */
+  //(&hadc);
+  //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+  /
+	//(&hadc);
+	  //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+	  //raw = HAL_ADC_GetValue(&hadc);
+
+	//(&hadc);
+	  //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+	  //raw = HAL_ADC_GetValue(&hadc);
   /* Infinite loop */
 
 
