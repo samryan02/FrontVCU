@@ -136,6 +136,131 @@ int16_t GYRO_READ_DIR(char dir){
 
 bool DataReady = 0;
 
+
+
+
+bool Steering_Wheel_Is_Active = true;
+bool P
+//Brake
+static uint16_t Brake_Pot_Avg;
+//Acc
+static uint16_t Throttle_Pot_Avg;
+//ADC Channel Selector
+  void Select_ADC_Channel(int channel){
+
+
+	  ADC_ChannelConfTypeDef
+
+
+	  switch(channel){
+
+	  case 1:
+		  sConfig.Channel = ADC_CHANNEL_0;
+		    sConfig.Rank = ADC_REGULAR_RANK_1;
+		    sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+		    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+		    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+		    sConfig.Offset = 0;
+		    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		    {
+		      Error_Handler();
+		    }
+		    break;
+	  case 2:
+		  sConfig.Channel = ADC_CHANNEL_1;
+		    sConfig.Rank = ADC_REGULAR_RANK_1;
+		    sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+		    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+		    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+		    sConfig.Offset = 0;
+		    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		    {
+		      Error_Handler();
+		    }
+		    break;
+	  case 3:
+		  sConfig.Channel = ADC_CHANNEL_2;
+		    sConfig.Rank = ADC_REGULAR_RANK_1;
+		    sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+		    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+		    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+		    sConfig.Offset = 0;
+		    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		    {
+		      Error_Handler();
+		    }
+		    break;
+	  case 4:
+		  sConfig.Channel = ADC_CHANNEL_3;
+		    sConfig.Rank = ADC_REGULAR_RANK_1;
+		    sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+		    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+		    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+		    sConfig.Offset = 0;
+		    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		    {
+		      Error_Handler();
+		    }
+		    break;
+	  case 5:
+		  sConfig.Channel = ADC_CHANNEL_4;
+		    sConfig.Rank = ADC_REGULAR_RANK_1;
+		    sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+		    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+		    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+		    sConfig.Offset = 0;
+		    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		    {
+		      Error_Handler();
+		    }
+		    break;
+	  case 6:
+		  sConfig.Channel = ADC_CHANNEL_5;
+		    sConfig.Rank = ADC_REGULAR_RANK_1;
+		    sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+		    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+		    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+		    sConfig.Offset = 0;
+		    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		    {
+		      Error_Handler();
+		    }
+		    break;
+	  }
+
+  }
+
+
+  uint16_t Rough_Potentiometer_Average(uint16_t signals[]){
+	  uint16_t functioning_inputs = sizeof(signals)/sizeof(signals[0]);
+	  uint16_t sum = 0;
+	  uint16_t i = functioning_inputs;
+
+	  while(i>0){
+		  if((signals[i]==0 || signals[i] == 4095)&& length>0){
+			  functioning_inputs--;
+		  }
+
+		  if(functioning_inputs == 0){
+			  return 0;
+		  }
+		  else{
+			sum+=signals[i];
+		  }
+
+		  i--;
+
+	  }
+
+
+	  //return average of working signals
+	  return sum/functioning_inputs;
+
+  }
+
+  //Will store respective potentiometer values for adc
+  uint16_t Throttle_ADC[3];
+  uint16_t Brake_ADC[3];
 /* USER CODE END 0 */
 
 /**
@@ -235,6 +360,14 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
   }
+
+
+
+
+
+
+
+
   /* USER CODE END 3 */
 }
 
@@ -364,7 +497,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_1;
+  /*sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
@@ -373,7 +506,7 @@ static void MX_ADC1_Init(void)
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
-  }
+  }*/
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
@@ -721,6 +854,14 @@ void SendData(void *argument)
 }
 
 /* USER CODE BEGIN Header_StartMotorInput */
+
+
+
+
+
+
+
+
 /**
 * @brief Function implementing the MotorControl thread.
 * @param argument: Not used
@@ -730,7 +871,60 @@ void SendData(void *argument)
 void StartMotorInput(void *argument)
 {
   /* USER CODE BEGIN StartMotorInput */
-  //(&hadc);
+	uint16_t Upper_Bound = 4095;
+	uint16_t Lower_Bound = 0;
+	if(Steering_Wheel_Is_Active){
+
+		Select_ADC_Channel(1);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		Throttle_ADC[0] = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+
+		Select_ADC_Channel(2);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		Throttle_ADC[1] = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+
+		Select_ADC_Channel(3);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		Throttle_ADC[2] = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+
+		Select_ADC_Channel(4);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		Brake_ADC[0] = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+
+		Select_ADC_Channel(5);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		Brake_ADC[1] = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+
+		Select_ADC_Channel(6);
+		HAL_ADC_Start(&hadc1);
+		HAL_ADC_PollForConversion(&hadc1, 1000);
+		Brake_ADC[2] = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Stop(&hadc1);
+
+		Brake_Pot_Avg = Rough_Potentiometer_Average(Brake_ADC);
+		Throttle_Pot_Avg = Rough_Potentiometer_Average(Throttle_Pot_Avg);
+
+
+
+	}
+	else{}
+}
+
   //HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
 
 	//(&hadc);
