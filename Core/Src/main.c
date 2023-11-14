@@ -140,7 +140,6 @@ bool DataReady = 0;
 
 
 bool Steering_Wheel_Is_Active = true;
-bool P
 //Brake
 static uint16_t Brake_Pot_Avg;
 //Acc
