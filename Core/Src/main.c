@@ -280,12 +280,12 @@ static uint16_t Throttle_Pot_Avg;
 
 
   uint16_t Rough_Potentiometer_Average(uint16_t signals[]){
-	  uint16_t functioning_inputs = sizeof(signals)/sizeof(signals[0]);
+	  uint16_t functioning_inputs = 3;
 	  uint16_t sum = 0;
 	  uint16_t i = functioning_inputs;
 
 	  while(i>0){
-		  if((signals[i]==0 || signals[i] == 4095)&& length>0){
+		  if((signals[i]==0 || signals[i] == 4095)&& functioning_inputs>0){
 			  functioning_inputs--;
 		  }
 
