@@ -146,13 +146,13 @@ float Read_Temperature()
 	temp_status = HAL_I2C_Master_Transmit(&hi2c1, TMP102_ADDR, buf, 1, HAL_MAX_DELAY);
 	if (temp_status != HAL_OK)
 	{
-		strcpy((char*))buf, "ERROROROR transmit");
+		strcpy((char*))buf, "Error: Transmit Error");
 	}else{
 
 		// Read 2 bytes from the temperature register
 		temp_status = HAL_I2C_Master_Receive(&hi2c1, TMP102_ADDR, buf, 2, HAL_MAX_DELAY);
 		if (temp_status != HAL_OK){
-			strcpy((char*)buf, "EOROREOROROR receive");
+			strcpy((char*)buf, "Error: Receive Error");
 		}else{
 
 			// Combine the bytes
