@@ -177,6 +177,19 @@ float Read_Temperature()
 }
 /* TEMPERATURE SENSOR CODE END :) */
 
+void writeData(char c, float data){
+	//bit math deives
+	HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 4, 1000);
+}
+float readData(char data){
+
+}
+void TickOdometers(){
+
+}
+
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
