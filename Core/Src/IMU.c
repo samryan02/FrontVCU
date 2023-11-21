@@ -20,7 +20,7 @@ uint8_t IMU_INIT(IMU *dev, I2C_HandleTypeDef *i2cHandle){
 	HAL_StatusTypeDef status;
 
 	uint8_t regData;
-	status = IMU_ReadRegister(dev, WHO_AM_I, &regData);
+	status = IMU_ReadRegister(dev, WHO_AM_I_REG, &regData);
 	errNum += (status != HAL_OK);
 	if(WHO_AM_I != 0x68){
 		return(255);
@@ -41,18 +41,32 @@ uint8_t IMU_INIT(IMU *dev, I2C_HandleTypeDef *i2cHandle){
 	return(errNum);
 }
 
+HAL_StatusTypeDef IMU_ReadAccel(IMU *dev){
 
 
+}
+HAL_StatusTypeDef IMU_ReadGyro(IMU *dev){
+
+}
+HAL_StatusTypeDef IMU_ReadTemp(IMU *dev){
+	uint8_t rawData[2];
+
+	HAL_StatusTypeDef status = IMU_ReadRegsiters(dev, TEMP_OUT_H, rawData, 2);
+
+	int16_t combinedData = ((int16_t)rawData[0] << 8) | rawData[1];
+	dev->temp = ((float)cominedData /340.0) + 36.53;
+}
 
 
-HAL_StatusTypeDef ReadRegister(IMU *dev, uint8_t reg, uint8_t *data){
+//low level functions
+HAL_StatusTypeDef IMU_ReadRegister(IMU *dev, uint8_t reg, uint8_t *data){
 	HAL_I2C_Mem_Read(dev->i2cHandle, IMU_I2C_ADDR, reg, I2C_MEMADD_SIZE_8BIT, data, 1, HAL_MAX_DELAY);
 }
 
-HAL_StatusTypeDef ReadRegisters(IMU *dev, uint8_t reg, uint8_t *data, uint8_t length){
+HAL_StatusTypeDef IMU_ReadRegisters(IMU *dev, uint8_t reg, uint8_t *data, uint8_t length){
 	HAL_I2C_Mem_Read(dev->i2cHandle, IMU_I2C_ADDR, reg, I2C_MEMADD_SIZE_8BIT, data, length, HAL_MAX_DELAY);
 }
 
-HAL_StatusTypeDef WriteRegister(IMU *dev, uint8_t reg, uint8_t *data){
+HAL_StatusTypeDef IMU_WriteRegister(IMU *dev, uint8_t reg, uint8_t *data){
 	HAL_I2C_Mem_Write(dev->i2cHandle, IMU_I2C_ADDR, reg, I2C_MEMADD_SIZE_8BIT, data, 1, HAL_MAX_DELAY);
 }
