@@ -61,16 +61,21 @@ void Error_Handler(void);
 #define Error_LED_GPIO_Port GPIOA
 #define STM_OK_Pin GPIO_PIN_1
 #define STM_OK_GPIO_Port GPIOA
-#define CS1_Pin GPIO_PIN_4
-#define CS1_GPIO_Port GPIOC
-#define CS0_Pin GPIO_PIN_5
-#define CS0_GPIO_Port GPIOC
+#define LeftTurnButton_Pin GPIO_PIN_6
+#define LeftTurnButton_GPIO_Port GPIOA
+#define BlinkersButton_Pin GPIO_PIN_7
+#define BlinkersButton_GPIO_Port GPIOA
+#define RightTurnButton_Pin GPIO_PIN_4
+#define RightTurnButton_GPIO_Port GPIOC
+#define RightTurnButton_EXTI_IRQn EXTI4_IRQn
 #define HeadLights_Pin GPIO_PIN_0
 #define HeadLights_GPIO_Port GPIOB
 #define RightTurn_Pin GPIO_PIN_1
 #define RightTurn_GPIO_Port GPIOB
 #define LeftTurn_Pin GPIO_PIN_2
 #define LeftTurn_GPIO_Port GPIOB
+#define IMU_INT_Pin GPIO_PIN_12
+#define IMU_INT_GPIO_Port GPIOB
 #define ARRAY_EN_Pin GPIO_PIN_14
 #define ARRAY_EN_GPIO_Port GPIOB
 #define BPS_EN_Pin GPIO_PIN_15
@@ -83,12 +88,14 @@ void Error_Handler(void);
 #define BPS_ENC8_GPIO_Port GPIOC
 #define MC_ENC9_Pin GPIO_PIN_9
 #define MC_ENC9_GPIO_Port GPIOC
-#define E2_Pin GPIO_PIN_10
-#define E2_GPIO_Port GPIOC
-#define E1_Pin GPIO_PIN_11
-#define E1_GPIO_Port GPIOC
-#define E0_Pin GPIO_PIN_12
-#define E0_GPIO_Port GPIOC
+#define HornButton_Pin GPIO_PIN_10
+#define HornButton_GPIO_Port GPIOC
+#define ForwardReverseButton_Pin GPIO_PIN_11
+#define ForwardReverseButton_GPIO_Port GPIOC
+#define HeadlightsButton_Pin GPIO_PIN_12
+#define HeadlightsButton_GPIO_Port GPIOC
+#define NWC_Pin GPIO_PIN_4
+#define NWC_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

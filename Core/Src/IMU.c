@@ -3,7 +3,6 @@
 //11/20/2023
 
 #include "IMU.h"
-#include <stdbool.h>
 
 uint8_t IMU_INIT(IMU *dev, I2C_HandleTypeDef *i2cHandle){
 	dev->i2cHandle    = i2cHandle;
