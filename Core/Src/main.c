@@ -176,6 +176,24 @@ float Read_Temperature()
 
 /*MEMORY CHIP CODE START */
 
+void Float_To_Bytes(float val, byte* bytes){
+
+	union u
+	{
+		float tempFloat;
+		byte bytesArray[4];
+	};
+
+	u.tempFloat = val;
+
+	memcpy(bytes, u.tempFloat, 4);
+}
+
+float Bytes_To_Float(byte* bytes){
+
+
+}
+
 
 
 void writeData(char c, float data){
