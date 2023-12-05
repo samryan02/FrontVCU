@@ -24,6 +24,8 @@ void Float_To_Bytes(float val, byte* bytes){ //Converts float to a 4 byte array.
 	memcpy(bytes, u.tempFloat, 4);
 }
 
+
+
 void Bytes_To_Float(byte* bytes, float &val){ //Converts bytes to a float. Pass the byte pointer and the call-by-reference float variable.
 	union u
 	{
@@ -37,41 +39,80 @@ void Bytes_To_Float(byte* bytes, float &val){ //Converts bytes to a float. Pass 
 
 HAL_StatusTypeDef M24C02_ReadALL(M24C02 *dev, float *data){
 
+	uint8_t addressArray[] = {P_ADDR, I_ADDR, D_ADDR, O_ADDR, R_ADDR, S_ADDR};
+	uint8_t tempBytes;
+	float tempFloat;
+
+	for(i = 0; i < sizeof(addressArray); i++){
+		HAL_StatusTypeDef readStatus = M24C02_ReadRegisters(dev, addressArray[i], tempBytes, 4);
+		if(readStatus != HAL_OK){
+			strcpy((char*)buf, "Error: Read Error"
+			break;
+
+		} else {
+			Bytes_To_Float(tempBytes, tempFloat);
+			data[i] = tempFloat;
+		}
+	}
+
+
+
+
 }
 HAL_StatusTypeDef M24C02_UpdateOne(M24C02 *dev, char selection, float newVal){
 	
+	uint8_t reg;
+	bool valid = true;
+
 	switch(selection){
 	
-		case 'o':
+		case 'o': //Odometer
 		case 'O':
-			
-			M24C02_WriteRegisters(dev, )
-			
+			reg = O_ADDR;
 			break;
 			
-		case 's':
+		case 's': //Speed
 		case 'S':
-			
+			reg = S_ADDR;
 			break;
 			
-		case 'p':
+		case 'p': //
 		case 'P':
-			
+			reg = P_ADDR;
 			break;
 			
-		case 'i':
+		case 'i': //Integral
 		case 'I':
-			
+			reg = I_ADDR;
 			break;
 			
-		case 'd':
+		case 'd': //Derivative
 		case 'D':
-			
+			reg = D_ADDR;
 			break;
+			
+		case 'r': //Regen
+		case 'R':
+			reg = R_ADDR;
+			break;
+			
 			
 		default;
-		
+		strcpy((char*)buf, "Error: Not Valid Selection");
+		valid = false;
 			break;
+
+		if(valid){
+			uint8_t dataBytes;
+
+			Float_To_Bytes(newVal, dataBytes);
+
+			HAL_StatusTypeDef writeStatus = M24C02_WriteRegisters(dev, reg, dataBytes, 4);
+
+			if(writeStatus != HAL_OK){
+				strcpy((char*)buf, "Error: Write Error");
+			}
+		}
 			
 	
 	
@@ -79,6 +120,26 @@ HAL_StatusTypeDef M24C02_UpdateOne(M24C02 *dev, char selection, float newVal){
 
 }
 HAL_StatusTypeDef M24C02_TickOdometer(M24C02 *dev){
+
+	float floatVal;
+	uint8_t tempData[4];
+
+
+	HAL_StatusTypeDef readStatus = M24C02_ReadRegisters(dev, O_ADDR, tempData, 4);
+	if (readStatus != HAL_OK){
+		Bytes_To_Float(tempData, floatVal);
+		floatVal++;
+		Float_To_Bytes(floatVal, tempData);
+
+		HAL_StatusTypeDef writeStatus = M24C02_WriteRegisters(dev, O_ADDR, tempData, 4);
+		if (writeStatus != HAL_OK){
+			strcpy((char*)buf, "Error: Write Error");
+		}
+
+	} else {
+		strcpy((char*)buf, "Error: Read Error");
+	}
+
 
 }
 
