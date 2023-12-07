@@ -174,17 +174,43 @@ float Read_Temperature()
 }
 /* TEMPERATURE SENSOR CODE END :) */
 
+/*MEMORY CHIP CODE START */
+
+void Float_To_Bytes(float val, byte* bytes){
+
+	union u
+	{
+		float tempFloat;
+		byte bytesArray[4];
+	};
+
+	u.tempFloat = val;
+
+	memcpy(bytes, u.tempFloat, 4);
+}
+
+float Bytes_To_Float(byte* bytes){
+
+
+}
+
+
+
 void writeData(char c, float data){
-	//bit math deives
+	//bit math divides
 	HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 4, 1000);
 }
+
 float readData(char data){
 
 }
+
+
 void TickOdometers(){
 
 }
 
+/*MEMORY CHIP CODE END*/
 
 
 /* USER CODE END PFP */
