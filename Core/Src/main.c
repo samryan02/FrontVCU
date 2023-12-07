@@ -813,9 +813,16 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_GPIO_EXI4_CALLBACK (uint16_t GPIO_PIN){
-if( GPIO_PIN == GPIO_PIN_0){
-	DataReady=1;
-}
+	if(GPIO_PIN == GPIO_PIN_6){
+		//send can message to MC to enable
+	}
+	//if statment for BPS enable
+	//if statment for Array enable
+
+	if( GPIO_PIN == GPIO_PIN_0){
+		DataReady=1;
+	}
+
 }
 
 
@@ -853,7 +860,11 @@ void StartlLightControl(void *argument)
 void StartCarData(void *argument)
 {
   /* USER CODE BEGIN StartCarData */
+
+
+
   /* Infinite loop */
+
   for(;;)
   {
     osDelay(1);
