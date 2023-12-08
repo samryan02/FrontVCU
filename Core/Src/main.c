@@ -1,4 +1,14 @@
 /* USER CODE BEGIN Header */
+//notes for samuel Nay
+/*
+ * 1. Create Interupt if states for swtichboard buttons and switches, leave switches empty, flip boolean for buttons
+ * 2. Write horn reading code
+ * 3. Wirte if statement for writing horn control pin
+ *
+ *
+ *
+ */
+
 /**
   ******************************************************************************
   * @file           : main.c
@@ -217,6 +227,23 @@ void TickOdometers(){
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+uint8_t USBRxDataReady = 0;
+uint8_t* USBRxDataBuffer;
+uint8_t USBRxDataLength = 0;
+
+
+void USBRxHandler(uint8_t* buf, uint32_t Len){
+
+	USBRxDataBuffer = buf;
+	USBRxDataLength = Len;
+	USBRxDataReady = 1;
+	return;
+
+
+}
+
+
 ///global task values
 
 bool DataReady = 0;
@@ -848,8 +875,8 @@ void HAL_GPIO_EXI4_CALLBACK (uint16_t GPIO_PIN){
 
 	//right turn
 	if(GPIO_PIN == right turn pin){
-		if(){//check if steering is acvie //if statment should eveaulate to true if steering wheel is not active
-
+		if(!steeringwheelactive){//check if steering is acvie //if statment should eveaulate to true if steering wheel is not active
+			leftturn = !lefturn
 		}
 	}
 	//left turn
@@ -863,7 +890,6 @@ void HAL_GPIO_EXI4_CALLBACK (uint16_t GPIO_PIN){
 	//forward reverse
 
 
-	//hornbutton
 
 
 
@@ -913,8 +939,22 @@ void StartlLightControl(void *argument)
 void StartCarData(void *argument)
 {
   /* USER CODE BEGIN StartCarData */
+	//Byte 1 = command
+
+	//NVIC_SystemReset();
+	// CDC_Transmit_FS("Welcome2\r\n", 10);
+	if(USBRxDataReady{
+		if(buf[0] = 0){
+			NVIC_SystemReset();
+		}
+		if(){//write command
+			writeData('c', Data)
+		}
 
 
+
+
+	}
 
   /* Infinite loop */
 
