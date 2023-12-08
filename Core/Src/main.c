@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -46,10 +47,6 @@ CAN_HandleTypeDef hcan1;
 CAN_HandleTypeDef hcan2;
 
 I2C_HandleTypeDef hi2c2;
-
-SPI_HandleTypeDef hspi1;
-
-PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 /* Definitions for LightControl */
 osThreadId_t LightControlHandle;
@@ -98,8 +95,6 @@ static void MX_ADC1_Init(void);
 static void MX_CAN1_Init(void);
 static void MX_CAN2_Init(void);
 static void MX_I2C2_Init(void);
-static void MX_SPI1_Init(void);
-static void MX_USB_OTG_FS_PCD_Init(void);
 void StartlLightControl(void *argument);
 void StartCarData(void *argument);
 void SendData(void *argument);
@@ -346,8 +341,6 @@ int main(void)
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_I2C2_Init();
-  MX_SPI1_Init();
-  MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -545,7 +538,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  /*sConfig.Channel = ADC_CHANNEL_1;
+  sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
@@ -554,7 +547,7 @@ static void MX_ADC1_Init(void)
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
-  }*/
+  }
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
@@ -684,81 +677,6 @@ static void MX_I2C2_Init(void)
 }
 
 /**
-  * @brief SPI1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_SPI1_Init(void)
-{
-
-  /* USER CODE BEGIN SPI1_Init 0 */
-
-  /* USER CODE END SPI1_Init 0 */
-
-  /* USER CODE BEGIN SPI1_Init 1 */
-
-  /* USER CODE END SPI1_Init 1 */
-  /* SPI1 parameter configuration*/
-  hspi1.Instance = SPI1;
-  hspi1.Init.Mode = SPI_MODE_MASTER;
-  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi1.Init.DataSize = SPI_DATASIZE_4BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi1.Init.CRCPolynomial = 7;
-  hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
-  hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
-  if (HAL_SPI_Init(&hspi1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN SPI1_Init 2 */
-
-  /* USER CODE END SPI1_Init 2 */
-
-}
-
-/**
-  * @brief USB_OTG_FS Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_OTG_FS_PCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
-
-  /* USER CODE END USB_OTG_FS_Init 0 */
-
-  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
-
-  /* USER CODE END USB_OTG_FS_Init 1 */
-  hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
-  hpcd_USB_OTG_FS.Init.dev_endpoints = 6;
-  hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
-  hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
-  hpcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
-  hpcd_USB_OTG_FS.Init.battery_charging_enable = ENABLE;
-  hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
-  hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
-  if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
-
-  /* USER CODE END USB_OTG_FS_Init 2 */
-
-}
-
-/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -776,11 +694,11 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, Error_LED_Pin|STM_OK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, CS1_Pin|CS0_Pin|ARRAY_LED_Pin|BPS_ENC8_Pin
-                          |MC_ENC9_Pin|E2_Pin|E1_Pin|E0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|NWC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, ARRAY_LED_Pin|BPS_ENC8_Pin|MC_ENC9_Pin|HornButton_Pin
+                          |ForwardReverseButton_Pin|HeadlightsButton_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : Error_LED_Pin STM_OK_Pin */
   GPIO_InitStruct.Pin = Error_LED_Pin|STM_OK_Pin;
@@ -789,27 +707,30 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA4 */
-  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  /*Configure GPIO pins : LeftTurnButton_Pin BlinkersButton_Pin */
+  GPIO_InitStruct.Pin = LeftTurnButton_Pin|BlinkersButton_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CS1_Pin CS0_Pin ARRAY_LED_Pin BPS_ENC8_Pin
-                           MC_ENC9_Pin E2_Pin E1_Pin E0_Pin */
-  GPIO_InitStruct.Pin = CS1_Pin|CS0_Pin|ARRAY_LED_Pin|BPS_ENC8_Pin
-                          |MC_ENC9_Pin|E2_Pin|E1_Pin|E0_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  /*Configure GPIO pin : RightTurnButton_Pin */
+  GPIO_InitStruct.Pin = RightTurnButton_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(RightTurnButton_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : HeadLights_Pin RightTurn_Pin LeftTurn_Pin */
-  GPIO_InitStruct.Pin = HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin;
+  /*Configure GPIO pins : HeadLights_Pin RightTurn_Pin LeftTurn_Pin NWC_Pin */
+  GPIO_InitStruct.Pin = HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|NWC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : IMU_INT_Pin */
+  GPIO_InitStruct.Pin = IMU_INT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(IMU_INT_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : ARRAY_EN_Pin BPS_EN_Pin */
   GPIO_InitStruct.Pin = ARRAY_EN_Pin|BPS_EN_Pin;
@@ -823,8 +744,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(MC_EN_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : ARRAY_LED_Pin BPS_ENC8_Pin MC_ENC9_Pin HornButton_Pin
+                           ForwardReverseButton_Pin HeadlightsButton_Pin */
+  GPIO_InitStruct.Pin = ARRAY_LED_Pin|BPS_ENC8_Pin|MC_ENC9_Pin|HornButton_Pin
+                          |ForwardReverseButton_Pin|HeadlightsButton_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
 }
@@ -850,9 +780,8 @@ if( GPIO_PIN == GPIO_PIN_0){
 /* USER CODE END Header_StartlLightControl */
 void StartlLightControl(void *argument)
 {
-
-
-
+  /* init code for USB_DEVICE */
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
 	//if (DataReady == 1)
