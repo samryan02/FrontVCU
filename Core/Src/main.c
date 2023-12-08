@@ -221,6 +221,7 @@ void TickOdometers(){
 
 bool DataReady = 0;
 
+//booleans for right turn, left turn, blinkers, headlights, forward/reverse, horn
 
 
 
@@ -771,11 +772,17 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, Error_LED_Pin|STM_OK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|NWC_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|Horn_Pin
+                          |NWC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, ARRAY_LED_Pin|BPS_ENC8_Pin|MC_ENC9_Pin|HornButton_Pin
-                          |ForwardReverseButton_Pin|HeadlightsButton_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, ARRAY_LED_Pin|ForwardReverseButton_Pin|HeadlightsButton_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : Break_Pin RightTurnButton_Pin */
+  GPIO_InitStruct.Pin = Break_Pin|RightTurnButton_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : Error_LED_Pin STM_OK_Pin */
   GPIO_InitStruct.Pin = Error_LED_Pin|STM_OK_Pin;
@@ -790,14 +797,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : RightTurnButton_Pin */
-  GPIO_InitStruct.Pin = RightTurnButton_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(RightTurnButton_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : HeadLights_Pin RightTurn_Pin LeftTurn_Pin NWC_Pin */
-  GPIO_InitStruct.Pin = HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|NWC_Pin;
+  /*Configure GPIO pins : HeadLights_Pin RightTurn_Pin LeftTurn_Pin Horn_Pin
+                           NWC_Pin */
+  GPIO_InitStruct.Pin = HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|Horn_Pin
+                          |NWC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -815,16 +818,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : MC_EN_Pin */
-  GPIO_InitStruct.Pin = MC_EN_Pin;
+  /*Configure GPIO pins : MC_EN_Pin PC10 */
+  GPIO_InitStruct.Pin = MC_EN_Pin|GPIO_PIN_10;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(MC_EN_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : ARRAY_LED_Pin BPS_ENC8_Pin MC_ENC9_Pin HornButton_Pin
-                           ForwardReverseButton_Pin HeadlightsButton_Pin */
-  GPIO_InitStruct.Pin = ARRAY_LED_Pin|BPS_ENC8_Pin|MC_ENC9_Pin|HornButton_Pin
-                          |ForwardReverseButton_Pin|HeadlightsButton_Pin;
+  /*Configure GPIO pins : ARRAY_LED_Pin ForwardReverseButton_Pin HeadlightsButton_Pin */
+  GPIO_InitStruct.Pin = ARRAY_LED_Pin|ForwardReverseButton_Pin|HeadlightsButton_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -844,6 +845,27 @@ void HAL_GPIO_EXI4_CALLBACK (uint16_t GPIO_PIN){
 	}
 	//if statment for BPS enable
 	//if statment for Array enable
+
+	//right turn
+	if(GPIO_PIN == right turn pin){
+		if(){//check if steering is acvie //if statment should eveaulate to true if steering wheel is not active
+
+		}
+	}
+	//left turn
+	if(GPIO_PIN == ){
+
+		leftturn = !lefturn
+	}
+	//blinkers
+
+	//headlights
+	//forward reverse
+
+
+	//hornbutton
+
+
 
 	if( GPIO_PIN == GPIO_PIN_0){
 		DataReady=1;
@@ -866,7 +888,12 @@ void StartlLightControl(void *argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
-	//if (DataReady == 1)
+	//check value of horn bolean
+	//if true, set horn out put to high
+	// if set horn output to low
+	HAL_GPIO_WritePin(GPIOB, Horn, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, Horn, GPIO_PIN_RESET);
+	// if true
 		//StartLightControl;
 
   for(;;)
@@ -1017,6 +1044,14 @@ void StartMotorInput(void *argument)
 void StartSensor(void *argument)
 {
   /* USER CODE BEGIN StartSensor */
+	//write code here for reading senesors and horn buttons
+
+	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_10)){
+		//if not pressed
+	}else{
+		//if pressed
+	}
+
   /* Infinite loop */
 
   for(;;)
