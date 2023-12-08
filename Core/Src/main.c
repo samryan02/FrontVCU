@@ -1,4 +1,14 @@
 /* USER CODE BEGIN Header */
+//notes for samuel Nay
+/*
+ * 1. Create Interupt if states for swtichboard buttons and switches, leave switches empty, flip boolean for buttons
+ * 2. Write horn reading code
+ * 3. Wirte if statement for writing horn control pin
+ *
+ *
+ *
+ */
+
 /**
   ******************************************************************************
   * @file           : main.c
@@ -48,6 +58,11 @@ CAN_HandleTypeDef hcan2;
 
 I2C_HandleTypeDef hi2c2;
 
+<<<<<<< HEAD
+=======
+PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
+>>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
 /* Definitions for LightControl */
 osThreadId_t LightControlHandle;
 const osThreadAttr_t LightControl_attributes = {
@@ -95,6 +110,10 @@ static void MX_ADC1_Init(void);
 static void MX_CAN1_Init(void);
 static void MX_CAN2_Init(void);
 static void MX_I2C2_Init(void);
+<<<<<<< HEAD
+=======
+static void MX_USB_OTG_FS_PCD_Init(void);
+>>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
 void StartlLightControl(void *argument);
 void StartCarData(void *argument);
 void SendData(void *argument);
@@ -172,14 +191,71 @@ float Read_Temperature()
 }
 /* TEMPERATURE SENSOR CODE END :) */
 
+/*MEMORY CHIP CODE START */
+
+void Float_To_Bytes(float val, byte* bytes){
+
+	union u
+	{
+		float tempFloat;
+		byte bytesArray[4];
+	};
+
+	u.tempFloat = val;
+
+	memcpy(bytes, u.tempFloat, 4);
+}
+
+float Bytes_To_Float(byte* bytes){
+
+
+}
+
+
+
+void writeData(char c, float data){
+	//bit math divides
+	HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 4, 1000);
+}
+
+float readData(char data){
+
+}
+
+
+void TickOdometers(){
+
+}
+
+/*MEMORY CHIP CODE END*/
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+uint8_t USBRxDataReady = 0;
+uint8_t* USBRxDataBuffer;
+uint8_t USBRxDataLength = 0;
+
+
+void USBRxHandler(uint8_t* buf, uint32_t Len){
+
+	USBRxDataBuffer = buf;
+	USBRxDataLength = Len;
+	USBRxDataReady = 1;
+	return;
+
+
+}
+
+
 ///global task values
 
 bool DataReady = 0;
 
+//booleans for right turn, left turn, blinkers, headlights, forward/reverse, horn
 
 
 
@@ -341,6 +417,10 @@ int main(void)
   MX_CAN1_Init();
   MX_CAN2_Init();
   MX_I2C2_Init();
+<<<<<<< HEAD
+=======
+  MX_USB_OTG_FS_PCD_Init();
+>>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -677,6 +757,44 @@ static void MX_I2C2_Init(void)
 }
 
 /**
+<<<<<<< HEAD
+=======
+  * @brief USB_OTG_FS Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USB_OTG_FS_PCD_Init(void)
+{
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
+
+  /* USER CODE END USB_OTG_FS_Init 0 */
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
+
+  /* USER CODE END USB_OTG_FS_Init 1 */
+  hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
+  hpcd_USB_OTG_FS.Init.dev_endpoints = 6;
+  hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
+  hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+  hpcd_USB_OTG_FS.Init.Sof_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.battery_charging_enable = ENABLE;
+  hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
+  hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
+  if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
+
+  /* USER CODE END USB_OTG_FS_Init 2 */
+
+}
+
+/**
+>>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -694,11 +812,25 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, Error_LED_Pin|STM_OK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
+<<<<<<< HEAD
   HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|NWC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, ARRAY_LED_Pin|BPS_ENC8_Pin|MC_ENC9_Pin|HornButton_Pin
                           |ForwardReverseButton_Pin|HeadlightsButton_Pin, GPIO_PIN_RESET);
+=======
+  HAL_GPIO_WritePin(GPIOB, HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|Horn_Pin
+                          |NWC_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, ARRAY_LED_Pin|ForwardReverseButton_Pin|HeadlightsButton_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : Break_Pin RightTurnButton_Pin */
+  GPIO_InitStruct.Pin = Break_Pin|RightTurnButton_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+>>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
 
   /*Configure GPIO pins : Error_LED_Pin STM_OK_Pin */
   GPIO_InitStruct.Pin = Error_LED_Pin|STM_OK_Pin;
@@ -713,6 +845,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+<<<<<<< HEAD
   /*Configure GPIO pin : RightTurnButton_Pin */
   GPIO_InitStruct.Pin = RightTurnButton_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -721,6 +854,12 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : HeadLights_Pin RightTurn_Pin LeftTurn_Pin NWC_Pin */
   GPIO_InitStruct.Pin = HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|NWC_Pin;
+=======
+  /*Configure GPIO pins : HeadLights_Pin RightTurn_Pin LeftTurn_Pin Horn_Pin
+                           NWC_Pin */
+  GPIO_InitStruct.Pin = HeadLights_Pin|RightTurn_Pin|LeftTurn_Pin|Horn_Pin
+                          |NWC_Pin;
+>>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -738,11 +877,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : MC_EN_Pin */
-  GPIO_InitStruct.Pin = MC_EN_Pin;
+  /*Configure GPIO pins : MC_EN_Pin PC10 */
+  GPIO_InitStruct.Pin = MC_EN_Pin|GPIO_PIN_10;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(MC_EN_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : ARRAY_LED_Pin ForwardReverseButton_Pin HeadlightsButton_Pin */
+  GPIO_InitStruct.Pin = ARRAY_LED_Pin|ForwardReverseButton_Pin|HeadlightsButton_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : ARRAY_LED_Pin BPS_ENC8_Pin MC_ENC9_Pin HornButton_Pin
                            ForwardReverseButton_Pin HeadlightsButton_Pin */
@@ -762,9 +908,36 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_GPIO_EXI4_CALLBACK (uint16_t GPIO_PIN){
-if( GPIO_PIN == GPIO_PIN_0){
-	DataReady=1;
-}
+	if(GPIO_PIN == GPIO_PIN_6){
+		//send can message to MC to enable
+	}
+	//if statment for BPS enable
+	//if statment for Array enable
+
+	//right turn
+	if(GPIO_PIN == right turn pin){
+		if(!steeringwheelactive){//check if steering is acvie //if statment should eveaulate to true if steering wheel is not active
+			leftturn = !lefturn
+		}
+	}
+	//left turn
+	if(GPIO_PIN == ){
+
+		leftturn = !lefturn
+	}
+	//blinkers
+
+	//headlights
+	//forward reverse
+
+
+
+
+
+	if( GPIO_PIN == GPIO_PIN_0){
+		DataReady=1;
+	}
+
 }
 
 
@@ -780,11 +953,19 @@ if( GPIO_PIN == GPIO_PIN_0){
 /* USER CODE END Header_StartlLightControl */
 void StartlLightControl(void *argument)
 {
+<<<<<<< HEAD
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
+=======
+>>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
-	//if (DataReady == 1)
+	//check value of horn bolean
+	//if true, set horn out put to high
+	// if set horn output to low
+	HAL_GPIO_WritePin(GPIOB, Horn, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, Horn, GPIO_PIN_RESET);
+	// if true
 		//StartLightControl;
 
   for(;;)
@@ -804,7 +985,25 @@ void StartlLightControl(void *argument)
 void StartCarData(void *argument)
 {
   /* USER CODE BEGIN StartCarData */
+	//Byte 1 = command
+
+	//NVIC_SystemReset();
+	// CDC_Transmit_FS("Welcome2\r\n", 10);
+	if(USBRxDataReady{
+		if(buf[0] = 0){
+			NVIC_SystemReset();
+		}
+		if(){//write command
+			writeData('c', Data)
+		}
+
+
+
+
+	}
+
   /* Infinite loop */
+
   for(;;)
   {
     osDelay(1);
@@ -931,6 +1130,14 @@ void StartMotorInput(void *argument)
 void StartSensor(void *argument)
 {
   /* USER CODE BEGIN StartSensor */
+	//write code here for reading senesors and horn buttons
+
+	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_10)){
+		//if not pressed
+	}else{
+		//if pressed
+	}
+
   /* Infinite loop */
 
   for(;;)
