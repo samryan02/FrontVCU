@@ -78,11 +78,8 @@ void Error_Handler(void);
 #define LeftTurn_GPIO_Port GPIOB
 #define IMU_INT_Pin GPIO_PIN_12
 #define IMU_INT_GPIO_Port GPIOB
-<<<<<<< HEAD
-=======
 #define Horn_Pin GPIO_PIN_13
 #define Horn_GPIO_Port GPIOB
->>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
 #define ARRAY_EN_Pin GPIO_PIN_14
 #define ARRAY_EN_GPIO_Port GPIOB
 #define BPS_EN_Pin GPIO_PIN_15
@@ -91,15 +88,6 @@ void Error_Handler(void);
 #define MC_EN_GPIO_Port GPIOC
 #define ARRAY_LED_Pin GPIO_PIN_7
 #define ARRAY_LED_GPIO_Port GPIOC
-<<<<<<< HEAD
-#define BPS_ENC8_Pin GPIO_PIN_8
-#define BPS_ENC8_GPIO_Port GPIOC
-#define MC_ENC9_Pin GPIO_PIN_9
-#define MC_ENC9_GPIO_Port GPIOC
-#define HornButton_Pin GPIO_PIN_10
-#define HornButton_GPIO_Port GPIOC
-=======
->>>>>>> f469e6cb7a7212498cc46d2bbc858fab58575470
 #define ForwardReverseButton_Pin GPIO_PIN_11
 #define ForwardReverseButton_GPIO_Port GPIOC
 #define HeadlightsButton_Pin GPIO_PIN_12
