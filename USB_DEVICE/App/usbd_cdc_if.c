@@ -31,7 +31,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+uint8_t tmp[7];
 /* USER CODE END PV */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -220,11 +220,24 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   /* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
   /*******************************************************************************/
     case CDC_SET_LINE_CODING:
+    	tmp[0] = pbuf[0];
+    	tmp[1] = pbuf[1];
+    	tmp[2] = pbuf[2];
+    	tmp[3] = pbuf[3];
+    	tmp[4] = pbuf[4];
+    	tmp[5] = pbuf[5];
+    	tmp[6] = pbuf[6];
 
     break;
 
     case CDC_GET_LINE_CODING:
-
+    	 pbuf[0] = tmp[0];
+    	 pbuf[1] = tmp[1];
+    	 pbuf[2] = tmp[2];
+    	 pbuf[3] = tmp[3];
+    	 pbuf[4] = tmp[4];
+    	 pbuf[5] = tmp[5];
+    	 pbuf[6] = tmp[6];
     break;
 
     case CDC_SET_CONTROL_LINE_STATE:
@@ -263,7 +276,7 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
-  USBR
+  USBRxHandler(Buf,*Len);
   return (USBD_OK);
   /* USER CODE END 6 */
 }
