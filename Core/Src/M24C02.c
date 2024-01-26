@@ -1,5 +1,5 @@
 //M24C02 I2C driver
-//Authors: Samuel Breslin, Kathrine Gonzalez
+//Authors: Samuel Breslin, Kathrine Gonzalez, Joshua Kwak, Ahmed Sattar
 //11/21/2023
 
 #include "M24C02.h"
@@ -23,6 +23,7 @@ void Float_To_Bytes(float val, byte* bytes){ //Converts float to a 4 byte array.
 
 	memcpy(bytes, u.tempFloat, 4);
 }
+
 
 
 
@@ -76,7 +77,7 @@ HAL_StatusTypeDef M24C02_UpdateOne(M24C02 *dev, char selection, float newVal){
 			reg = S_ADDR;
 			break;
 			
-		case 'p': //
+		case 'p': //Potential
 		case 'P':
 			reg = P_ADDR;
 			break;
