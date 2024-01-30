@@ -20,6 +20,7 @@
 #define M2402_I2C_ADDR (1010000 << 1)
 
 
+
 // data format
 #define P_ADDR 0x00
 #define I_ADDR 0x04 //Integral Constant
@@ -27,6 +28,28 @@
 #define O_ADDR 0x12 //odometer
 #define R_ADDR 0x16 //regen constant
 #define S_ADDR 0x20 //speed constant
+
+//setup for setting up memory
+struct memory{
+
+	int id = 0;
+	uint8 addr = 0x00;
+	int size = 0;
+	char name[] = "x";
+
+};
+
+struct memory memData[] =
+{
+struct memory p = {.id = 0 , .addr = 0x00 , .size = 4 , .name = "potential constant"}
+struct memory i = {.id = 1 , .addr = 0x04 , .size = 4 , .name = "integral constant"}
+struct memory d = {.id = 2 , .addr = 0x08 , .size = 4 , .name = "derivative"}
+struct memory o = {.id = 3 , .addr = 0x12 , .size = 4 , .name = "odometer"}
+struct memory r = {.id = 4 , .addr = 0x16 , .size = 4 , .name = "regen constant"}
+struct memory o = {.id = 5 , .addr = 0x20 , .size = 4 , .name = "speed constant"}
+}
+
+
 
 
 
