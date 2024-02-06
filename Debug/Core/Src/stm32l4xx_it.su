@@ -1,12 +1,11 @@
-../Core/Src/stm32l4xx_it.c:70:6:NMI_Handler	4	static
-../Core/Src/stm32l4xx_it.c:85:6:HardFault_Handler	4	static
-../Core/Src/stm32l4xx_it.c:100:6:MemManage_Handler	4	static
-../Core/Src/stm32l4xx_it.c:115:6:BusFault_Handler	4	static
-../Core/Src/stm32l4xx_it.c:130:6:UsageFault_Handler	4	static
-../Core/Src/stm32l4xx_it.c:145:6:DebugMon_Handler	4	static
-<<<<<<< HEAD
-../Core/Src/stm32l4xx_it.c:165:6:EXTI4_IRQHandler	8	static
-../Core/Src/stm32l4xx_it.c:179:6:TIM7_IRQHandler	8	static
-=======
-../Core/Src/stm32l4xx_it.c:165:6:TIM7_IRQHandler	8	static
->>>>>>> 180f99fe2e7e7d46b51ba5f79c7da3100d5a8c27
+../Core/Src/stm32l4xx_it.c:73:6:NMI_Handler	4	static
+../Core/Src/stm32l4xx_it.c:88:6:HardFault_Handler	4	static
+../Core/Src/stm32l4xx_it.c:103:6:MemManage_Handler	4	static
+../Core/Src/stm32l4xx_it.c:118:6:BusFault_Handler	4	static
+../Core/Src/stm32l4xx_it.c:133:6:UsageFault_Handler	4	static
+../Core/Src/stm32l4xx_it.c:148:6:DebugMon_Handler	4	static
+../Core/Src/stm32l4xx_it.c:168:6:EXTI4_IRQHandler	8	static
+../Core/Src/stm32l4xx_it.c:182:6:DMA1_Channel1_IRQHandler	8	static
+../Core/Src/stm32l4xx_it.c:196:6:ADC1_2_IRQHandler	8	static
+../Core/Src/stm32l4xx_it.c:210:6:TIM7_IRQHandler	8	static
+../Core/Src/stm32l4xx_it.c:224:6:OTG_FS_IRQHandler	8	static

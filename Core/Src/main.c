@@ -38,6 +38,42 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN Header */
+//notes for samuel Nay
+/*
+ * 1. Create Interupt if states for swtichboard buttons and switches, leave switches empty, flip boolean for buttons
+ * 2. Write horn reading code
+ * 3. Wirte if statement for writing horn control pin
+ *
+ *
+ *
+ */
+
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -60,41 +96,40 @@ CAN_HandleTypeDef hcan2;
 
 I2C_HandleTypeDef hi2c2;
 
-/* Definitions for LightControl */
-osThreadId_t LightControlHandle;
-const osThreadAttr_t LightControl_attributes = {
-  .name = "LightControl",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for CarData */
-osThreadId_t CarDataHandle;
-const osThreadAttr_t CarData_attributes = {
-  .name = "CarData",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityAboveNormal,
-};
-/* Definitions for DataCAN */
-osThreadId_t DataCANHandle;
-const osThreadAttr_t DataCAN_attributes = {
-  .name = "DataCAN",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for MotorControl */
-osThreadId_t MotorControlHandle;
-const osThreadAttr_t MotorControl_attributes = {
-  .name = "MotorControl",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityHigh,
-};
-/* Definitions for ReadingSensor */
-osThreadId_t ReadingSensorHandle;
-const osThreadAttr_t ReadingSensor_attributes = {
-  .name = "ReadingSensor",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
-};
+/* USER CODE BEGIN Header */
+//notes for samuel Nay
+/*
+ * 1. Create Interupt if states for swtichboard buttons and switches, leave switches empty, flip boolean for buttons
+ * 2. Write horn reading code
+ * 3. Wirte if statement for writing horn control pin
+ *
+ *
+ *
+ */
+
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/**
+* @}
+*/
+/**
+* @}
+*/
 /* USER CODE BEGIN PV */
 uint16_t ADC_Storage[6];
 char data[20];
@@ -234,6 +269,13 @@ uint8_t USBRxDataReady = 0;
 uint8_t* USBRxDataBuffer;
 uint8_t USBRxDataLength = 0;
 char flag  = "A"
+
+
+
+uint16_t ADC_DMA_TEST_BUFFER[]
+
+
+
 void USBRxHandler(uint8_t* buf, uint32_t Len){
 
 	USBRxDataBuffer = buf;
@@ -423,46 +465,40 @@ int main(void)
 
   /* Init scheduler */
   osKernelInitialize();
+/* USER CODE BEGIN Header */
+//notes for samuel Nay
+/*
+ * 1. Create Interupt if states for swtichboard buttons and switches, leave switches empty, flip boolean for buttons
+ * 2. Write horn reading code
+ * 3. Wirte if statement for writing horn control pin
+ *
+ *
+ *
+ */
 
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* creation of LightControl */
-  LightControlHandle = osThreadNew(StartlLightControl, NULL, &LightControl_attributes);
-
-  /* creation of CarData */
-  CarDataHandle = osThreadNew(StartCarData, NULL, &CarData_attributes);
-
-  /* creation of DataCAN */
-  DataCANHandle = osThreadNew(SendData, NULL, &DataCAN_attributes);
-
-  /* creation of MotorControl */
-  MotorControlHandle = osThreadNew(StartMotorInput, NULL, &MotorControl_attributes);
-
-  /* creation of ReadingSensor */
-  ReadingSensorHandle = osThreadNew(StartSensor, NULL, &ReadingSensor_attributes);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/**
+* @}
+*/
+/**
+* @}
+*/
 
   /* Start scheduler */
   osKernelStart();
@@ -635,7 +671,6 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  /*
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
@@ -646,54 +681,52 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
-*/
+
   /** Configure Regular Channel
   */
-  /*sConfig.Rank = ADC_REGULAR_RANK_2;
+  sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
   }
-*/
+
   /** Configure Regular Channel
   */
-  /*sConfig.Rank = ADC_REGULAR_RANK_3;
+  sConfig.Rank = ADC_REGULAR_RANK_3;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
   }
-*/
+
   /** Configure Regular Channel
   */
-  /*
   sConfig.Rank = ADC_REGULAR_RANK_4;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
   }
-*/
+
   /** Configure Regular Channel
   */
-  /*sConfig.Rank = ADC_REGULAR_RANK_5;
+  sConfig.Rank = ADC_REGULAR_RANK_5;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
   }
-*/
+
   /** Configure Regular Channel
   */
-  /*sConfig.Rank = ADC_REGULAR_RANK_6;
+  sConfig.Rank = ADC_REGULAR_RANK_6;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
-  }*/
+  }
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
-/*
+
 }
 
-*/
 /**
   * @brief CAN1 Initialization Function
   * @param None
@@ -840,6 +873,8 @@ static void MX_DMA_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -913,6 +948,8 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */

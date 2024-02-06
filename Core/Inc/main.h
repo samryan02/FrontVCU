@@ -94,6 +94,7 @@ void Error_Handler(void);
 #define HeadlightsButton_GPIO_Port GPIOC
 #define NWC_Pin GPIO_PIN_4
 #define NWC_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
