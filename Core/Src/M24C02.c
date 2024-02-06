@@ -75,7 +75,6 @@ HAL_StatusTypeDef M24C02_ReadALL(M24C02 *dev, float *data){
 			data[i] = tempFloat;
 		}
 	}
-
 }
 
 HAL_StatusTypeDef M24C02_FetchMemData(M24C02 *dev, uint8_t *bytes[]){
@@ -94,6 +93,30 @@ HAL_StatusTypeDef M24C02_FetchMemData(M24C02 *dev, uint8_t *bytes[]){
 		//Send data to GUI
 	}
 	//Send terminating cmd
+
+}
+
+HAL_StatusTypeDef M24C02_UpdateMem(M24C02 *dev, int ID, uint8_t* newVal){
+
+	bool pointFound = false;
+
+	int arrSize = sizeof(memData);
+	int i = arrySize/2;
+
+	while(!pointFound){
+
+		if(memData[i].id = ID){
+			int desID = i;
+			pointFound = true;
+			break;
+		} else if(memData[i].id > ID) {
+			i = i/2;
+		}else {
+			i = i;
+		}
+
+
+	}
 
 }
 
@@ -141,7 +164,7 @@ HAL_StatusTypeDef M24C02_UpdateOne(M24C02 *dev, char selection, float newVal){//
 			break;
 
 		if(valid){
-			uint8_t dataBytes;
+			uint8_t dataBytes[4];
 
 			Float_To_Bytes(newVal, dataBytes);
 
@@ -151,12 +174,9 @@ HAL_StatusTypeDef M24C02_UpdateOne(M24C02 *dev, char selection, float newVal){//
 				strcpy((char*)buf, "Error: Write Error");
 			}
 		}
-			
-	
-	
 	}
-
 }
+
 HAL_StatusTypeDef M24C02_TickOdometer(M24C02 *dev){
 
 	float floatVal;
