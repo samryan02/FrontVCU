@@ -77,6 +77,7 @@ HAL_StatusTypeDef M24C02_ReadALL(M24C02 *dev, float *data){
 	}
 }
 
+// Gets all of the data from the memData and sends it to GUI
 HAL_StatusTypeDef M24C02_FetchMemData(M24C02 *dev, uint8_t *bytes[]){
 
 	for(i = 0 ; i < sizeof(memData) ; i++){
@@ -84,9 +85,11 @@ HAL_StatusTypeDef M24C02_FetchMemData(M24C02 *dev, uint8_t *bytes[]){
 		uint8_t IDBytes[];
 		uint8_t NameBytes[];
 
+		// Stores the data at address i to IDBytes
 		int tempID = memData[i].id;
 		Int_To_Bytes(tempID, IDBytes);
 
+		// Store the name to NameBytes
 		char tempString = memData[i].name;
 		String_To_Bytes(tempString, NameBytes);
 
@@ -177,18 +180,26 @@ HAL_StatusTypeDef M24C02_UpdateOne(M24C02 *dev, char selection, float newVal){//
 	}
 }
 
+<<<<<<< HEAD
+=======
+// Increases Odometer's Value by 1
+>>>>>>> 6b036e7cb5da31c0da31d1c301ad919b9b561106
 HAL_StatusTypeDef M24C02_TickOdometer(M24C02 *dev){
 
+	// Creates a temporary float and 4 byte array
 	float floatVal;
 	uint8_t tempData[4];
 
-
+	// Gets the reading status and reads the data from O_ADDR
 	HAL_StatusTypeDef readStatus = M24C02_ReadRegisters(dev, O_ADDR, tempData, 4);
-	if (readStatus != HAL_OK){
+	// Checks to see if the reading status is OK
+	if (readStatus == HAL_OK){
+		// Converts the tempData to a float and stores it in floatVal
 		Bytes_To_Float(tempData, floatVal);
 		floatVal++;
+		// Converts the new floatVal back into a 4 byte array
 		Float_To_Bytes(floatVal, tempData);
-
+		// Writes the new data and returns the write status
 		HAL_StatusTypeDef writeStatus = M24C02_WriteRegisters(dev, O_ADDR, tempData, 4);
 		if (writeStatus != HAL_OK){
 			strcpy((char*)buf, "Error: Write Error");
